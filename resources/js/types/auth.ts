@@ -11,4 +11,8 @@ export type User = {
 
 export type Auth = {
     user: User;
+    /** Slugs de permiso del usuario (docs/AI/ARCHITECTURE.md §4 y §5). */
+    permissions?: string[];
+    /** Slugs de rol del usuario. */
+    roles?: string[];
 };

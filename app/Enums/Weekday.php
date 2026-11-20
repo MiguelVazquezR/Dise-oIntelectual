@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Enums;
+
+enum Weekday: int
+{
+    case Monday = 1;
+    case Tuesday = 2;
+    case Wednesday = 3;
+    case Thursday = 4;
+    case Friday = 5;
+    case Saturday = 6;
+    case Sunday = 7;
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::Monday => 'Lunes',
+            self::Tuesday => 'Martes',
+            self::Wednesday => 'Miércoles',
+            self::Thursday => 'Jueves',
+            self::Friday => 'Viernes',
+            self::Saturday => 'Sábado',
+            self::Sunday => 'Domingo',
+        };
+    }
+
+    /**
+     * Abreviatura corta en español (lun, mar, mié…).
+     */
+    public function shortLabel(): string
+    {
+        return mb_substr($this->label(), 0, 3);
+    }
+
+    /**
+     * @return array<int, int>
+     */
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
+}

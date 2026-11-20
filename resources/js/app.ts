@@ -15,7 +15,11 @@ void createInertiaApp({
                 return null;
             case name.startsWith('auth/'):
                 return AuthLayout;
-            case name.startsWith('settings/'):
+            // Solo las pantallas personales usan el menú de ajustes; la
+            // configuración administrativa (settings/Aws) usa el layout normal.
+            case name === 'settings/Profile' ||
+                name === 'settings/Security' ||
+                name === 'settings/Appearance':
                 return [AppLayout, SettingsLayout];
             default:
                 return AppLayout;

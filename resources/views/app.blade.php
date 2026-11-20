@@ -26,19 +26,21 @@
             }
 
             html.dark {
-                background-color: oklch(0.145 0 0);
+                background-color: oklch(0.1665 0.0124 254.17);
             }
         </style>
 
         <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+        <link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <meta name="theme-color" content="#04315D">
 
         @fonts
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
         <x-inertia::head>
-            <title>{{ config('app.name', 'Laravel') }}</title>
+            <title>{{ config('app.name', 'Diseño Intelectual') }}</title>
         </x-inertia::head>
     </head>
     <body class="font-sans antialiased">

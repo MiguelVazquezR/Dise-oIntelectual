@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Branch;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -35,11 +37,34 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+
+        if ($user instanceof User) {
+            $user->loadMissing(['roles.permissions', 'branches']);
+        }
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user instanceof User ? [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ] : null,
+                'permissions' => $user instanceof User ? $user->permissionSlugs() : [],
+                'roles' => $user instanceof User ? $user->roleSlugs() : [],
+                'branches' => $user instanceof User
+                    ? $user->branches->map(fn (Branch $branch): array => [
+                        'id' => $branch->id,
+                        'name' => $branch->name,
+                        'code' => $branch->code,
+                    ])->values()->all()
+                    : [],
+            ],
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
